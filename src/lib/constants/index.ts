@@ -539,6 +539,72 @@ const GOVERNMENT_FEES = [
   },
 ];
 
+const COMPANY_LOGOS = [
+  {
+    src: "/images/companies/aromatics-logo.png",
+    alt: "Aromatics Pvt. Ltd.",
+    width: 260,
+    height: 72,
+    bgColor: "#FFF",
+  },
+  {
+    src: "/images/companies/bhartia.png",
+    alt: "Bhartia International School",
+    width: 120,
+    height: 120,
+    bgColor: "#FFF",
+  },
+  {
+    src: "/images/companies/easykartlabels.webp",
+    alt: "Easy Kart Labels",
+    width: 120,
+    height: 120,
+    bgColor: "#FFF",
+  },
+  {
+    src: "/images/companies/hugel.jpg",
+    alt: "Hugel",
+    width: 120,
+    height: 120,
+    bgColor: "#FFF",
+  },
+  {
+    src: "/images/companies/orchids.png",
+    alt: "Orchids",
+    width: 260,
+    height: 72,
+    bgColor: "#9D0022",
+  },
+  {
+    src: "/images/companies/sahilkochhar.avif",
+    alt: "Sahil Kochhar",
+    width: 260,
+    height: 72,
+    bgColor: "#FFF",
+  },
+  {
+    src: "/images/companies/vytals.png",
+    alt: "Vytals",
+    width: 260,
+    height: 72,
+    bgColor: "#FFF",
+  },
+  {
+    src: "/images/companies/zavenir-daubert.png",
+    alt: "Zavenir Daubert",
+    width: 260,
+    height: 72,
+    bgColor: "#FFF",
+  },
+  {
+    src: "/images/companies/delhitesthouse.png",
+    alt: "Delhi test house",
+    width: 100,
+    height: 100,
+    bgColor: "#FFF",
+  },
+];
+
 export {
   MODAL_INTERVAL,
   REDIRECTION_TIME,
@@ -549,4 +615,5 @@ export {
   CARD_CONTENTS,
   TESTIMONIALS,
   GOVERNMENT_FEES,
+  COMPANY_LOGOS,
 };

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Marquee } from "@/components/ui/marquee";
+import { COMPANY_LOGOS } from "@/lib/constants";
 
 export function TrustedCompanies() {
   return (
@@ -16,7 +17,7 @@ export function TrustedCompanies() {
 
         <div className="relative flex w-full flex-col items-center justify-center gap-20 overflow-hidden">
           <Marquee pauseOnHover className="[--duration:20s] [--gap:100px]">
-            {companyLogos.map((logo, index) => (
+            {COMPANY_LOGOS.map((logo, index) => (
               <ReviewCard key={`${logo}-${index + 1}`} {...logo} />
             ))}
           </Marquee>
@@ -54,69 +55,3 @@ const ReviewCard = ({
     </figure>
   );
 };
-
-const companyLogos = [
-  {
-    src: "/images/companies/aromatics-logo.png",
-    alt: "Aromatics Pvt. Ltd.",
-    width: 260,
-    height: 72,
-    bgColor: "#FFF",
-  },
-  {
-    src: "/images/companies/bhartia.png",
-    alt: "Bhartia International School",
-    width: 120,
-    height: 120,
-    bgColor: "#FFF",
-  },
-  {
-    src: "/images/companies/easykartlabels.webp",
-    alt: "Easy Kart Labels",
-    width: 120,
-    height: 120,
-    bgColor: "#FFF",
-  },
-  {
-    src: "/images/companies/hugel.jpg",
-    alt: "Hugel",
-    width: 120,
-    height: 120,
-    bgColor: "#FFF",
-  },
-  {
-    src: "/images/companies/orchids.png",
-    alt: "Orchids",
-    width: 260,
-    height: 72,
-    bgColor: "#9D0022",
-  },
-  {
-    src: "/images/companies/sahilkochhar.avif",
-    alt: "Sahil Kochhar",
-    width: 260,
-    height: 72,
-    bgColor: "#FFF",
-  },
-  {
-    src: "/images/companies/vytals.png",
-    alt: "Vytals",
-    width: 260,
-    height: 72,
-    bgColor: "#FFF",
-  },
-  {
-    src: "/images/companies/zavenir-daubert.png",
-    alt: "Zavenir Daubert",
-    width: 260,
-    height: 72,
-    bgColor: "#FFF",
-  },
-  {
-    src: "/images/companies/delhitesthouse.png",
-    alt: "Delhi test house",
-    width: 100,
-    height: 100,
-    bgColor: "#FFF",
-  },
-];
