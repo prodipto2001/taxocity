@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSelectedPlan, useUserContext } from "@/context/modal";
 import { getGSTAmount } from "@/lib/utils";
+import { deleteCookie } from "@/lib/utils/cookies";
 import { generatePaymentReceiptPDF } from "@/lib/utils/pdf";
 
 type PaymentData = {
@@ -52,6 +53,20 @@ function PaymentSuccess() {
 
   React.useEffect(() => {
     const validateToken = async () => {
+      // checking if we have cached payment data in sessionStorage
+      const cachedData = sessionStorage.getItem("payment-success-data");
+      if (cachedData) {
+        try {
+          const parsedData = JSON.parse(cachedData);
+          setPaymentData(parsedData);
+          setStatus("success");
+          return;
+        } catch {
+          // if parsing fails, going with token validation
+          sessionStorage.removeItem("payment-success-data");
+        }
+      }
+
       if (!token) {
         setError("No Payment token found!");
         setStatus("error");
@@ -67,6 +82,15 @@ function PaymentSuccess() {
         if (data.isValid && data.paymentData) {
           setPaymentData(data.paymentData);
           setStatus("success");
+
+          // storing payment data in sessionStorage for this session
+          sessionStorage.setItem(
+            "payment-success-data",
+            JSON.stringify(data.paymentData)
+          );
+
+          // removing token from URL to prevent revalidation
+          router.replace("/payment-success", { scroll: false });
         } else {
           setError(data.message ?? "Invalid Payment Token");
           setStatus("error");
@@ -80,6 +104,43 @@ function PaymentSuccess() {
     };
     validateToken();
   }, [token, router]);
+
+  // cleanup: clearing all stored data when user navigates away from payment success page
+  React.useEffect(() => {
+    const clearAllStoredData = () => {
+      // clearing session storage
+      sessionStorage.removeItem("payment-success-data");
+
+      // clearing localStorage (order is complete, no need to keep this data)
+      localStorage.removeItem("user_data");
+      localStorage.removeItem("selected_plan");
+
+      // clearing cookies
+      deleteCookie("form_completed");
+    };
+
+    // clearing on page unload (refresh, close tab, navigate away)
+    const handleBeforeUnload = () => {
+      clearAllStoredData();
+    };
+
+    // clearing when user uses browser back/forward buttons to leave this page
+    const handlePopState = () => {
+      clearAllStoredData();
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      // listeners
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("popstate", handlePopState);
+
+      // clearing all stored data when component unmounts
+      clearAllStoredData();
+    };
+  }, []);
 
   const content = React.useMemo(() => {
     switch (status) {
@@ -102,7 +163,7 @@ function PaymentSuccess() {
       <CardHeader className="gap-0">
         <CardTitle className="flex flex-col sm:flex-row items-center justify-between text-[#1E1E1E]">
           <span className="font-semibold text-2xl">Payment Confirmation</span>
-          <span className="text-lg">{user.orderId ?? "Loading..."}</span>
+          <span className="text-lg">{user.orderId}</span>
         </CardTitle>
       </CardHeader>
 

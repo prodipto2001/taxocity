@@ -1,7 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server";
 
 export function proxy(request: NextRequest) {
-  if (request.nextUrl.pathname === "/pricing") {
+  const pathname = request.nextUrl.pathname;
+
+  if (pathname === "/pricing" || pathname === "/order-review") {
     const hasCompletedForm = request.cookies.get("form_completed");
 
     if (!hasCompletedForm) {
@@ -13,5 +15,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/pricing"],
+  matcher: ["/pricing", "/order-review"],
 };
