@@ -1,9 +1,43 @@
+"use client";
+
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useSelectedPlan, useUserContext } from "@/context/modal";
 import { formatNumber } from "@/lib/utils";
-import Image from "next/image";
+import { purchase } from "@/lib/utils/razorpay";
 
 function OrderSummary() {
+  const { selectedPlan } = useSelectedPlan();
+  const { user } = useUserContext();
+
+  const router = useRouter();
+
+  const gstAmount = selectedPlan.price ? selectedPlan.price * 0.18 : null;
+  const gstAddedPrice =
+    selectedPlan.price && gstAmount ? selectedPlan.price + gstAmount : null;
+
+  const isUserDataAvailable = user.name && user.email && user.phone;
+
+  function handlePayment() {
+    if (!isUserDataAvailable) {
+      alert("Session expired. Please complete the registration form again.");
+      router.push("/");
+      return;
+    }
+
+    purchase({
+      name: user.name,
+      phone: user.phone,
+      email: user.email,
+      plan: selectedPlan.title,
+      description: selectedPlan.description,
+      amount: gstAddedPrice,
+      // onPaymentStart: () => setIsProcessingPayment(true),
+    });
+  }
+
   return (
     <Card className="rounded-lg">
       <CardHeader className="gap-0">
@@ -22,7 +56,7 @@ function OrderSummary() {
 
           <li className="flex items-center justify-between">
             <span>Package Price</span>
-            <span className="font-semibold">₹3499</span>
+            <span className="font-semibold">₹{selectedPlan.price}</span>
           </li>
 
           <li className="flex items-center justify-between">
@@ -37,13 +71,14 @@ function OrderSummary() {
 
           <li className="flex items-center justify-between pt-3 font-semibold text-[#1E1E1E] text-2xl">
             <span>Total</span>
-            <span>₹{formatNumber(3999)}</span>
+            <span>₹{formatNumber(gstAddedPrice)}</span>
           </li>
         </ul>
 
         <Button
           size="lg"
           className="h-12 w-full font-bold text-base bg-[#00AD5F] hover:bg-[#28865c]"
+          onClick={handlePayment}
         >
           Pay Now
         </Button>

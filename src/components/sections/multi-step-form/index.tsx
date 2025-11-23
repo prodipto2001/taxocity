@@ -5,19 +5,17 @@ import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { useModalOpen, useUserContext } from "@/context/modal";
-import { useTeleCRMMutation } from "@/lib/hooks/useTeleCRMMutation";
 import { useGoogleSheetsMutation } from "@/lib/hooks/useGoogleSheetsMutation";
+import { useTeleCRMMutation } from "@/lib/hooks/useTeleCRMMutation";
 import { setCookie } from "@/lib/utils/cookies";
 import { type FormSchema, formSchema } from "./form-schema";
-import { PlanSummary } from "./plan-summary";
 import { UserDetailsForm } from "./user-details";
 
 function MultiStepForm({
-  showPlanSummary = false,
+  isSourcePricingCards = false,
 }: {
-  showPlanSummary?: boolean;
+  isSourcePricingCards?: boolean;
 }) {
-  const [currentStep, setCurrentStep] = React.useState<0 | 1>(0);
   const router = useRouter();
   const modalState = useModalOpen();
   const userState = useUserContext();
@@ -36,26 +34,6 @@ function MultiStepForm({
 
   const teleCRMMutation = useTeleCRMMutation();
   const googleSheetsMutation = useGoogleSheetsMutation();
-
-  const content = [
-    {
-      component: (
-        <UserDetailsForm
-          form={form}
-          handleNext={onSubmit}
-          isSubmitting={
-            teleCRMMutation.isPending || googleSheetsMutation.isPending
-          }
-        />
-      ),
-      label: "User details",
-    },
-    {
-      component: <PlanSummary />,
-      label: "Plan Summary",
-    },
-  ];
-  const currentStepComponent = content[currentStep].component;
 
   async function onSubmit() {
     const step1Fields = [
@@ -98,10 +76,9 @@ function MultiStepForm({
       }
       setCookie("form_completed", "true", 1); // valid for 1 day
 
-      if (showPlanSummary) {
-        setCurrentStep(1);
+      if (isSourcePricingCards) {
+        router.push("/order-review");
       } else {
-        modalState.setIsOpen(false); // closing the modal before navigating to another page
         router.push("/pricing");
       }
     }
@@ -109,14 +86,19 @@ function MultiStepForm({
 
   React.useEffect(() => {
     // resetting only when in modal flow and when modal closes
-    if (showPlanSummary && !modalState.isOpen) {
-      setCurrentStep(0);
+    if (!modalState.isOpen) {
       form.reset();
       // Note: We don't clear user data here as it's needed for the pricing page
     }
-  }, [showPlanSummary, modalState.isOpen, form]);
+  }, [modalState.isOpen, form]);
 
-  return <React.Fragment>{currentStepComponent}</React.Fragment>;
+  return (
+    <UserDetailsForm
+      form={form}
+      handleNext={onSubmit}
+      isSubmitting={teleCRMMutation.isPending || googleSheetsMutation.isPending}
+    />
+  );
 }
 
 export { MultiStepForm };

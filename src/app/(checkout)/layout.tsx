@@ -1,15 +1,16 @@
 import { Info } from "lucide-react";
 import Image from "next/image";
-import { OrderSummary } from "@/components/sections/order-review/order-summary";
-import { PaymentSuccess } from "@/components/sections/order-review/payment-success";
-import { UserDetails } from "@/components/sections/order-review/user-details";
 import { Button } from "@/components/ui/button";
 import { Marquee } from "@/components/ui/marquee";
 import { Rating } from "@/components/ui/rating";
 import { COMPANY_LOGOS, TESTIMONIALS } from "@/lib/constants";
 import { getInitials } from "@/lib/utils";
 
-export default function OrderReviewPage() {
+export default function CheckoutLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <main className="font-sans py-28 md:py-32 px-2 md:px-16">
       <div className="mx-auto max-w-[1256px] flex flex-col-reverse xl:flex-row">
@@ -67,21 +68,7 @@ export default function OrderReviewPage() {
             </p>
           </div>
 
-          <Features />
-
-          <OrderSummary />
-
-          <Button
-            variant="outline"
-            size="lg"
-            className="h-10 xl:hidden w-full text-[#1E293B]"
-          >
-            <Info className="size-4" /> Contact Us
-          </Button>
-
-          <UserDetails />
-
-          <PaymentSuccess />
+          {children}
 
           <Button
             variant="outline"
@@ -170,52 +157,3 @@ const TestimonialCard = ({
     </figure>
   );
 };
-
-function Features() {
-  return (
-    <div className="md:min-w-[587px] p-2 md:p-6 rounded-lg flex items-center justify-between gap-1 md:gap-4 bg-[#58B09C]/10">
-      <div className="flex flex-col md:flex-row items-center justify-center gap-1">
-        <Image
-          src="/logos/money-security.svg"
-          alt="money security logo"
-          width={48}
-          height={48}
-          className="size-4 md:size-12"
-        />
-        <p className="text-xs font-bold text-center">
-          Your money will be secured with 100% refund policy
-        </p>
-      </div>
-
-      <div className="h-6 w-px bg-[#58B09C]" />
-
-      <div className="flex flex-col md:flex-row items-center justify-center gap-1">
-        <Image
-          src="/logos/mobile-pay.svg"
-          alt="mobile payment logo"
-          width={48}
-          height={48}
-          className="size-4 md:size-12"
-        />
-        <p className="text-xs font-bold text-center">
-          Pay through UPI, Net Banking, Debit/Credit Card
-        </p>
-      </div>
-
-      <div className="h-6 w-px bg-[#58B09C]" />
-
-      <div className="flex flex-col md:flex-row items-center justify-center gap-1">
-        <Image
-          src="/logos/shield-circle-check.svg"
-          alt="shield circle check logo"
-          width={48}
-          height={48}
-          className="size-4 md:size-12"
-        />
-        <p className="text-xs font-bold text-center">
-          Your details will be protected with our privacy policy
-        </p>
-      </div>
-    </div>
-  );
-}

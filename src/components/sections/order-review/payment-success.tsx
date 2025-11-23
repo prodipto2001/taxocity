@@ -1,8 +1,13 @@
+"use client";
+
+import { CircleCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CircleCheck } from "lucide-react";
+import { useUserContext } from "@/context/modal";
 
 function PaymentSuccess() {
+  const { user } = useUserContext();
+
   return (
     <Card className="rounded-lg">
       <CardHeader className="gap-0">
@@ -16,8 +21,8 @@ function PaymentSuccess() {
         <div className="space-y-6">
           <CircleCheck className="size-[84px] fill-[#58B09C] text-white mx-auto" />
           <p className="text-center text-2xl font-bold leading-tight text-[#1E1E1E]">
-            Thank you for your payment [Name]. Your order has been successfully
-            received.
+            Thank you for your payment {user.name}. Your order has been
+            successfully received.
           </p>
         </div>
 
@@ -63,7 +68,7 @@ function PaymentSuccess() {
         </Button>
 
         <p className="font-medium text-left md:text-center">
-          Our team will reach out to you to get a form filled, once it’s filled,
+          Our team will reach out to you to get a form filled, once it's filled,
           we wiill begin processing your documents and reach out if anything
           else is needed.
         </p>

@@ -12,9 +12,7 @@ import { useModalOpen } from "@/context/modal";
 function FormPricingModal() {
   const { isOpen, setIsOpen, modalSource } = useModalOpen();
 
-  // if opened from pricing cards, showing plan summary after step 1
-  // if opened from header, footer or any other cta then redirecting to pricing page after step 1
-  const showPlanSummary = modalSource === "pricing";
+  const isSourcePricingCards = modalSource === "pricing";
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -25,7 +23,7 @@ function FormPricingModal() {
           </DialogTitle>
         </DialogHeader>
         <div>
-          <MultiStepForm showPlanSummary={showPlanSummary} />
+          <MultiStepForm isSourcePricingCards={isSourcePricingCards} />
         </div>
       </DialogContent>
     </Dialog>

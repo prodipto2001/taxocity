@@ -5,8 +5,12 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatNumber(num: number): string {
-  return num.toLocaleString("en-IN");
+export function formatNumber(num: number | null): string {
+  if (num !== null) {
+    return num.toLocaleString("en-IN");
+  }
+  console.error("Failed to format number with commas");
+  return "0";
 }
 
 export function getInitials(name: string): string {

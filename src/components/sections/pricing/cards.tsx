@@ -1,7 +1,6 @@
 "use client";
 
-import { ChevronDown, CircleCheckBig, Info } from "lucide-react";
-import Image from "next/image";
+import { CircleCheckBig, Info } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import Script from "next/script";
 import * as React from "react";
@@ -14,17 +13,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { PaymentProcessingOverlay } from "@/components/ui/payment-processing-overlay";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { useModalOpen, useSelectedPlan, useUserContext } from "@/context/modal";
 import { CARD_CONTENTS } from "@/lib/constants";
-import { cn, formatNumber } from "@/lib/utils";
-import { purchase } from "@/lib/utils/razorpay";
+import { formatNumber } from "@/lib/utils";
+
+type Plan = {
+  title: string | null;
+  description: string | null;
+  price: number | null;
+};
 
 function PricingCards() {
   const pathname = usePathname();
@@ -34,45 +32,24 @@ function PricingCards() {
   const { setSelectedPlan } = useSelectedPlan();
   const { user } = useUserContext();
 
-  const [isProcessingPayment, setIsProcessingPayment] = React.useState(false);
+  // const [isProcessingPayment, setIsProcessingPayment] = React.useState(false);
 
   const isUserDataAvailable = user.name && user.email && user.phone;
 
-  function handleGetStarted(plan: {
-    title: string;
-    description: string;
-    price: number;
-  }) {
+  function handleGetStarted(plan: Plan) {
     setSelectedPlan(plan);
     modalState.setModalSource("pricing");
     setIsOpen(true);
   }
 
-  function handlePayment(item: {
-    title: string;
-    description: string;
-    price: number;
-  }) {
-    if (!isUserDataAvailable) {
-      alert("Session expired. Please complete the registration form again.");
-      router.push("/");
-      return;
-    }
-
-    purchase({
-      name: user.name,
-      phone: user.phone,
-      email: user.email,
-      plan: item.title,
-      description: item.description,
-      amount: item.price,
-      onPaymentStart: () => setIsProcessingPayment(true),
-    });
+  function handleProceed(plan: Plan) {
+    setSelectedPlan(plan);
+    router.push("/order-review");
   }
 
   return (
     <React.Fragment>
-      <PaymentProcessingOverlay isVisible={isProcessingPayment} />
+      {/* <PaymentProcessingOverlay isVisible={isProcessingPayment} /> */}
 
       <div className="max-w-[1256px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-10 md:gap-20 mt-8 md:mt-20">
         <Script
@@ -113,7 +90,7 @@ function PricingCards() {
                         <Button
                           size="icon"
                           variant="ghost"
-                          className="-ml-1 sm:-ml-0 size-6 cursor-pointer font-normal hover:bg-transparent border border-transparent hover:border-input font-sans"
+                          className="-ml-1 sm:ml-0 size-6 cursor-pointer font-normal hover:bg-transparent border border-transparent hover:border-input font-sans"
                         >
                           <Info className="size-3" />
                         </Button>
@@ -151,7 +128,7 @@ function PricingCards() {
                     variant="brand"
                     className="w-full"
                     disabled={!isUserDataAvailable}
-                    onClick={() => handlePayment(item)}
+                    onClick={() => handleProceed(item)}
                   >
                     Proceed
                   </Button>
