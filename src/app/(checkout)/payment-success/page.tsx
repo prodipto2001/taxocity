@@ -1,6 +1,6 @@
 import { Info } from "lucide-react";
 import * as React from "react";
-import { PaymentSuccess } from "@/components/sections/order-review/payment-success";
+import { PaymentSuccess } from "@/components/sections/payment-success";
 import { Button } from "@/components/ui/button";
 
 export default function PaymentSuccessPage() {

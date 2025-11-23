@@ -1,14 +1,15 @@
 "use client";
 
-import { CircleCheck, Loader, X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSelectedPlan, useUserContext } from "@/context/modal";
 import { getGSTAmount } from "@/lib/utils";
 import { deleteCookie } from "@/lib/utils/cookies";
 import { generatePaymentReceiptPDF } from "@/lib/utils/pdf";
+import { ErrorContent } from "./error-content";
+import { SuccessContent } from "./success-content";
+import { ValidatingContent } from "./validation-content";
 
 type PaymentData = {
   paymentId: string;
@@ -18,7 +19,7 @@ type PaymentData = {
   paymentDate: string;
 };
 
-function PaymentSuccess() {
+function PaymentSuccessContent() {
   const [status, setStatus] = React.useState<
     "validating" | "error" | "success"
   >("validating");
@@ -172,104 +173,28 @@ function PaymentSuccess() {
   );
 }
 
+function PaymentSuccess() {
+  return (
+    <React.Suspense fallback={<PaymentSuccessSkeleton />}>
+      <PaymentSuccessContent />
+    </React.Suspense>
+  );
+}
+
+function PaymentSuccessSkeleton() {
+  return (
+    <Card className="rounded-lg">
+      <CardHeader className="gap-0">
+        <CardTitle className="flex flex-col sm:flex-row items-center justify-between text-[#1E1E1E]">
+          <span className="font-semibold text-2xl">Payment Confirmation</span>
+        </CardTitle>
+      </CardHeader>
+
+      <CardContent className="space-y-6">
+        <ValidatingContent />
+      </CardContent>
+    </Card>
+  );
+}
+
 export { PaymentSuccess };
-
-function SuccessContent({
-  gstAmount,
-  handleDownloadReceipt,
-}: {
-  gstAmount: string;
-  handleDownloadReceipt: () => Promise<void>;
-}) {
-  const { user } = useUserContext();
-  const { selectedPlan } = useSelectedPlan();
-
-  return (
-    <React.Fragment>
-      <div className="space-y-6">
-        <CircleCheck className="size-[84px] fill-[#58B09C] text-white mx-auto" />
-        <p className="text-center text-2xl font-bold leading-tight text-[#1E1E1E]">
-          Thank you for your payment {user.name}. Your order has been
-          successfully received.
-        </p>
-      </div>
-
-      <ul className="text-sm sm:text-base mb-6 py-3 border-y border-[#6B7280]/40 text-[#6B7280]">
-        <li className="flex items-center justify-between">
-          <span>Package</span>
-          <span className="font-semibold">Pvt Ltd company incorporation</span>
-        </li>
-
-        <li className="flex items-center justify-between">
-          <span>Package Price</span>
-          <span className="font-semibold">₹{selectedPlan.price}</span>
-        </li>
-
-        <li className="flex items-center justify-between">
-          <span>18% GST</span>
-          <span className="font-semibold">₹{gstAmount}</span>
-        </li>
-
-        <li className="flex items-center justify-between">
-          <span>Transaction ID</span>
-          <span className="font-semibold">{selectedPlan.transactionID}</span>
-        </li>
-
-        <li className="flex items-center justify-between">
-          <span>Transaction Date</span>
-          <span className="font-semibold">{selectedPlan.transactionDate}</span>
-        </li>
-
-        <li className="flex items-center justify-between">
-          <span>Status</span>
-          <span className="font-semibold">Payment Successful</span>
-        </li>
-      </ul>
-
-      <Button
-        variant="brand"
-        size="lg"
-        className="w-full"
-        onClick={handleDownloadReceipt}
-      >
-        Download Receipt
-      </Button>
-
-      <p className="font-medium text-left md:text-center">
-        Our team will reach out to you to get a form filled, once it's filled,
-        we wiill begin processing your documents and reach out if anything else
-        is needed.
-      </p>
-    </React.Fragment>
-  );
-}
-
-function ErrorContent({ error }: { error: string | null }) {
-  return (
-    <div className="min-h-[460px] flex flex-col items-center justify-center gap-6 md:gap-12">
-      <div className="bg-destructive/20 p-4 rounded-full">
-        <X className="size-10 md:size-12 text-destructive" />
-      </div>
-
-      <div className="space-y-3">
-        <h1 className="text-2xl md:text-3xl font-bold">Access Denied</h1>
-        <p className="text-center font-semibold text-[#3F3F3F] mb-4">
-          {error || "Invalid or expired payment session"}
-        </p>
-      </div>
-
-      <p>Redirecting you to home page...</p>
-    </div>
-  );
-}
-
-function ValidatingContent() {
-  return (
-    <div className="min-h-[460px] flex flex-col items-center justify-center gap-6 md:gap-12">
-      <div className="bg-[#B3DBFF]/40 p-4 rounded-full">
-        <Loader className="animate-spin size-10 md:size-12" />
-      </div>
-      <h1 className="text-2xl md:text-3xl font-bold">Validating Payment</h1>
-    </div>
-  );
-}
