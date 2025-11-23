@@ -21,12 +21,12 @@ function OrderSummary() {
 
   const gstAmount = getGSTAmount(selectedPlan.price ? selectedPlan.price : 0);
   const gstIncludedPrice = getGSTIncludedPrice(
-    selectedPlan.price ? selectedPlan.price : 0
+    selectedPlan.price ? selectedPlan.price : 0,
   );
 
   function handlePaymentProcessing(
     transactionID: string,
-    transactionDate: string
+    transactionDate: string,
   ) {
     setSelectedPlan((prev) => ({ ...prev, transactionID, transactionDate }));
   }

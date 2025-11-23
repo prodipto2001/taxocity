@@ -22,7 +22,7 @@ function getStateLabel(stateValue: string): string {
 }
 
 export async function generatePaymentReceiptPDF(
-  paymentData: PaymentReceiptData
+  paymentData: PaymentReceiptData,
 ): Promise<void> {
   const doc = new jsPDF();
 
@@ -58,7 +58,7 @@ export async function generatePaymentReceiptPDF(
       centerX - logoWidth / 2,
       currentY,
       logoWidth,
-      logoHeight
+      logoHeight,
     );
     currentY += logoHeight + 15;
   } catch {
@@ -84,7 +84,7 @@ export async function generatePaymentReceiptPDF(
     "Thank you for your payment. Your order is being processed.",
     centerX,
     currentY,
-    { align: "center" }
+    { align: "center" },
   );
   currentY += 15;
 

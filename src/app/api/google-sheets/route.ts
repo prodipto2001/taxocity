@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     if (!leadData.phone) {
       return NextResponse.json(
         { success: false, error: "Phone number is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
         success: false,
         error: error instanceof Error ? error.message : "Internal server error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

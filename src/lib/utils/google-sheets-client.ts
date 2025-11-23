@@ -16,7 +16,7 @@ export type GoogleSheetsLeadData = {
 };
 
 export async function updateGoogleSheetViaAPI(
-  data: GoogleSheetsLeadData
+  data: GoogleSheetsLeadData,
 ): Promise<{
   success: boolean;
   message: string;

@@ -20,7 +20,7 @@ function getSheetsClient() {
 }
 
 async function ensureHeaders(
-  sheetsClient: ReturnType<typeof getSheetsClient>
+  sheetsClient: ReturnType<typeof getSheetsClient>,
 ): Promise<void> {
   const spreadsheetId = env.GOOGLE_SHEETS_SPREADSHEET_ID;
 
@@ -58,7 +58,7 @@ async function ensureHeaders(
 
 async function findRowByPhone(
   sheetsClient: ReturnType<typeof getSheetsClient>,
-  phone: string
+  phone: string,
 ): Promise<number | null> {
   const spreadsheetId = env.GOOGLE_SHEETS_SPREADSHEET_ID;
 
@@ -78,7 +78,7 @@ async function findRowByPhone(
     (row: any, index: number) =>
       index > 0 && // skipping header row
       row[0] &&
-      row[0].toString().trim() === phone.trim()
+      row[0].toString().trim() === phone.trim(),
   );
 
   return rowIndex > 0 ? rowIndex + 1 : null; // converting to 1-based index
@@ -87,7 +87,7 @@ async function findRowByPhone(
 // converting lead data to row values
 function dataToRow(
   data: GoogleSheetsLeadData,
-  existingRow?: string[]
+  existingRow?: string[],
 ): string[] {
   const now = new Date().toLocaleString("en-GB", {
     day: "2-digit",
@@ -219,7 +219,7 @@ async function mockUpsertLeadData(data: GoogleSheetsLeadData): Promise<{
  */
 async function updateGoogleSheet(
   data: GoogleSheetsLeadData,
-  useMock = false
+  useMock = false,
 ): Promise<{
   success: boolean;
   message: string;
