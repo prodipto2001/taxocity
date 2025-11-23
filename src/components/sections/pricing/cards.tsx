@@ -37,13 +37,23 @@ function PricingCards() {
   const isUserDataAvailable = user.name && user.email && user.phone;
 
   function handleGetStarted(plan: Plan) {
-    setSelectedPlan(plan);
+    setSelectedPlan({
+      ...plan,
+      transactionID: null,
+      transactionDate: null,
+      gstIncludedPrice: null,
+    });
     modalState.setModalSource("pricing");
     setIsOpen(true);
   }
 
   function handleProceed(plan: Plan) {
-    setSelectedPlan(plan);
+    setSelectedPlan({
+      ...plan,
+      transactionID: null,
+      transactionDate: null,
+      gstIncludedPrice: null,
+    });
     router.push("/order-review");
   }
 

@@ -15,11 +15,14 @@ type SelectedPlan = {
   title: string | null;
   description: string | null;
   price: number | null;
+  gstIncludedPrice: string | null;
+  transactionID: string | null;
+  transactionDate: string | null;
 };
 
 type TSelectedPlanContext = {
   selectedPlan: SelectedPlan;
-  setSelectedPlan: (plan: SelectedPlan) => void;
+  setSelectedPlan: React.Dispatch<React.SetStateAction<SelectedPlan>>;
 };
 
 type User = {
@@ -27,6 +30,7 @@ type User = {
   phone: string | null;
   email: string | null;
   state: string | null;
+  orderId?: string | null;
 };
 
 type TUserContext = {
@@ -35,7 +39,7 @@ type TUserContext = {
 };
 
 const ModalOpenContext = React.createContext<TModalOpenContext | undefined>(
-  undefined,
+  undefined
 );
 
 const SelectedPlanContext = React.createContext<
@@ -51,12 +55,16 @@ function ModalContextProvider({ children }: { children: React.ReactNode }) {
     title: null,
     description: null,
     price: null,
+    gstIncludedPrice: null,
+    transactionID: null,
+    transactionDate: null,
   });
   const [user, setUser] = React.useState<User>({
     email: null,
     phone: null,
     name: null,
     state: null,
+    orderId: null,
   });
 
   // Restore user data from localStorage on mount
@@ -70,16 +78,44 @@ function ModalContextProvider({ children }: { children: React.ReactNode }) {
         console.error("Failed to parse user data from localStorage:", error);
       }
     }
+
+    const savedPlanData = localStorage.getItem("selected_plan");
+    if (savedPlanData) {
+      try {
+        const parsedData = JSON.parse(savedPlanData);
+        setSelectedPlan(parsedData);
+      } catch (error) {
+        console.error(
+          "Failed to parse selected plan from localStorage:",
+          error
+        );
+      }
+    }
   }, []);
+
+  // Save selectedPlan to localStorage whenever it changes
+  React.useEffect(() => {
+    if (
+      selectedPlan.title ||
+      selectedPlan.price ||
+      selectedPlan.transactionID
+    ) {
+      try {
+        localStorage.setItem("selected_plan", JSON.stringify(selectedPlan));
+      } catch (error) {
+        console.error("Failed to save selected plan to localStorage:", error);
+      }
+    }
+  }, [selectedPlan]);
 
   const modalOpenValue = React.useMemo(
     () => ({ isOpen, setIsOpen, modalSource, setModalSource }),
-    [isOpen, modalSource],
+    [isOpen, modalSource]
   );
 
   const selectedPlanValue = React.useMemo(
     () => ({ selectedPlan, setSelectedPlan }),
-    [selectedPlan],
+    [selectedPlan]
   );
 
   const userValue = React.useMemo(() => ({ user, setUser }), [user]);
@@ -99,7 +135,7 @@ function useModalOpen() {
   const context = React.useContext(ModalOpenContext);
   if (context === undefined) {
     throw new Error(
-      "useModalOpen hook must be used within ModalContextProvider",
+      "useModalOpen hook must be used within ModalContextProvider"
     );
   }
   return context;
@@ -109,7 +145,7 @@ function useSelectedPlan() {
   const context = React.useContext(SelectedPlanContext);
   if (context === undefined) {
     throw new Error(
-      "useSelectedPlan hook must be used within ModalContextProvider",
+      "useSelectedPlan hook must be used within ModalContextProvider"
     );
   }
   return context;
@@ -119,7 +155,7 @@ function useUserContext() {
   const context = React.useContext(UserContext);
   if (context === undefined) {
     throw new Error(
-      "useUserContext hook must be used within UserContextProvider",
+      "useUserContext hook must be used within UserContextProvider"
     );
   }
   return context;

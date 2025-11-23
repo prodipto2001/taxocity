@@ -6,6 +6,10 @@ import { env } from "@/env";
 const tokenStore = new Map<
   string,
   {
+    name: string;
+    phone: string;
+    email: string;
+    state: string;
     paymentId: string;
     orderId: string;
     amount: string;
@@ -29,20 +33,21 @@ const generateToken = () => {
 };
 
 // cleaning up expired tokens every 5 minutes
-setInterval(
-  () => {
-    const now = Date.now();
-    for (const [token, data] of tokenStore.entries()) {
-      if (data.expiresAt < now || data.used) {
-        tokenStore.delete(token);
-      }
+setInterval(() => {
+  const now = Date.now();
+  for (const [token, data] of tokenStore.entries()) {
+    if (data.expiresAt < now || data.used) {
+      tokenStore.delete(token);
     }
-  },
-  5 * 60 * 1000,
-);
+  }
+}, 5 * 60 * 1000);
 
 export async function POST(request: NextRequest) {
   const {
+    name,
+    phone,
+    email,
+    state,
     orderId,
     razorpayPaymentId,
     razorpaySignature,
@@ -56,7 +61,7 @@ export async function POST(request: NextRequest) {
   if (isVerified) {
     return NextResponse.json(
       { message: "payment verification failed", isOk: false },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -65,6 +70,10 @@ export async function POST(request: NextRequest) {
   const expiresAt = Date.now() + 5 * 60 * 1000; // 5 minutes
 
   tokenStore.set(token, {
+    name,
+    phone,
+    email,
+    state,
     paymentId: razorpayPaymentId,
     orderId,
     amount,
@@ -80,7 +89,7 @@ export async function POST(request: NextRequest) {
       isOk: true,
       token,
     },
-    { status: 200 },
+    { status: 200 }
   );
 }
 
@@ -91,7 +100,7 @@ export async function GET(request: NextRequest) {
   if (!token) {
     return NextResponse.json(
       { message: "Token is required", isValid: false },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -100,14 +109,14 @@ export async function GET(request: NextRequest) {
   if (!tokenData) {
     return NextResponse.json(
       { message: "Invalid or expired token", isValid: false },
-      { status: 401 },
+      { status: 401 }
     );
   }
 
   if (tokenData.used) {
     return NextResponse.json(
       { message: "Token already used", isValid: false },
-      { status: 401 },
+      { status: 401 }
     );
   }
 
@@ -115,7 +124,7 @@ export async function GET(request: NextRequest) {
     tokenStore.delete(token);
     return NextResponse.json(
       { message: "Token expired", isValid: false },
-      { status: 401 },
+      { status: 401 }
     );
   }
 
@@ -133,6 +142,6 @@ export async function GET(request: NextRequest) {
         paymentDate: tokenData.paymentDate,
       },
     },
-    { status: 200 },
+    { status: 200 }
   );
 }

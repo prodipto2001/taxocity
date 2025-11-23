@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     ) {
       return NextResponse.json(
         { success: false, error: "Missing required fields" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       to: data.to,
       name: data.name,
       plan: data.plan,
-      amount: data.amount / 100,
+      amount: data.amount,
       paymentId: data.paymentId,
       orderId: data.orderId,
       brandName: "Taxocity",
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     console.error("Send email API failed:", error);
     return NextResponse.json(
       { success: false, error: "Failed to send email" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

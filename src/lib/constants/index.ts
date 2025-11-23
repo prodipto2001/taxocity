@@ -1,6 +1,8 @@
 const MODAL_INTERVAL = 30000; // 30seconds
 const REDIRECTION_TIME = 10; // 10seconds
 
+const GST_PERCENT = 18;
+
 const GOOGLE_SHEET_COLUMNS = {
   PHONE: 0, // A - Primary unique identifier
   NAME: 1, // B
@@ -608,6 +610,7 @@ const COMPANY_LOGOS = [
 export {
   MODAL_INTERVAL,
   REDIRECTION_TIME,
+  GST_PERCENT,
   GOOGLE_SHEET_COLUMNS,
   GOOGLE_SHEET_NAME,
   STATES,

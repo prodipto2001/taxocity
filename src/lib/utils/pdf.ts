@@ -1,4 +1,5 @@
 import { jsPDF } from "jspdf";
+import { STATES } from "@/lib/constants";
 
 interface PaymentReceiptData {
   paymentId: string;
@@ -6,10 +7,22 @@ interface PaymentReceiptData {
   amount: string;
   plan: string;
   paymentDate: string;
+  user: {
+    name: string;
+    email: string;
+    phone: string;
+    state: string;
+  };
+}
+
+// Helper function to get state label from state value
+function getStateLabel(stateValue: string): string {
+  const state = STATES.find((s) => s.value === stateValue);
+  return state ? state.label : stateValue;
 }
 
 export async function generatePaymentReceiptPDF(
-  paymentData: PaymentReceiptData,
+  paymentData: PaymentReceiptData
 ): Promise<void> {
   const doc = new jsPDF();
 
@@ -45,7 +58,7 @@ export async function generatePaymentReceiptPDF(
       centerX - logoWidth / 2,
       currentY,
       logoWidth,
-      logoHeight,
+      logoHeight
     );
     currentY += logoHeight + 15;
   } catch {
@@ -71,7 +84,7 @@ export async function generatePaymentReceiptPDF(
     "Thank you for your payment. Your order is being processed.",
     centerX,
     currentY,
-    { align: "center" },
+    { align: "center" }
   );
   currentY += 15;
 
@@ -104,7 +117,7 @@ export async function generatePaymentReceiptPDF(
   doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
   doc.text("Amount Paid:", leftMargin, currentY);
   doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-  const amountText = `Rs. ${(Number(paymentData.amount) / 100).toFixed(2)}`;
+  const amountText = `Rs. ${paymentData.amount}`;
   doc.text(amountText, rightMargin, currentY, { align: "right" });
   currentY += lineHeight;
 
@@ -134,6 +147,53 @@ export async function generatePaymentReceiptPDF(
   currentY += 15;
 
   // bottom border line
+  doc.setDrawColor(borderColor[0], borderColor[1], borderColor[2]);
+  doc.setLineWidth(0.5);
+  doc.line(leftMargin, currentY, rightMargin, currentY);
+  currentY += 15;
+
+  // user details header - 16px medium (centered)
+  doc.setFontSize(16);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+  doc.text("User Details", centerX, currentY, { align: "center" });
+  currentY += 15;
+
+  // user details section - 14px normal
+  doc.setFontSize(14);
+  doc.setFont("helvetica", "normal");
+
+  // name
+  doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
+  doc.text("Name:", leftMargin, currentY);
+  doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+  doc.text(paymentData.user.name, rightMargin, currentY, { align: "right" });
+  currentY += lineHeight;
+
+  // email
+  doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
+  doc.text("Email:", leftMargin, currentY);
+  doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+  const emailText = doc.splitTextToSize(paymentData.user.email, 90);
+  doc.text(emailText, rightMargin, currentY, { align: "right" });
+  currentY += lineHeight;
+
+  // phone
+  doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
+  doc.text("Phone:", leftMargin, currentY);
+  doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+  doc.text(paymentData.user.phone, rightMargin, currentY, { align: "right" });
+  currentY += lineHeight;
+
+  // state
+  doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
+  doc.text("State:", leftMargin, currentY);
+  doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+  const stateLabel = getStateLabel(paymentData.user.state);
+  doc.text(stateLabel, rightMargin, currentY, { align: "right" });
+  currentY += 15;
+
+  // bottom border line after user details
   doc.setDrawColor(borderColor[0], borderColor[1], borderColor[2]);
   doc.setLineWidth(0.5);
   doc.line(leftMargin, currentY, rightMargin, currentY);

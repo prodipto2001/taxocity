@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { nanoid } from "nanoid";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -49,6 +50,9 @@ function MultiStepForm({
       const { name, email, countryCode, phone, state } = form.getValues();
       const fullPhone = `${countryCode} ${phone}`;
 
+      // generating unique order_id
+      const orderId = `TAX${nanoid(10)}`;
+
       // updating telecrm
       await teleCRMMutation.mutateAsync({
         name,
@@ -59,6 +63,7 @@ function MultiStepForm({
 
       // updating google sheets
       await googleSheetsMutation.mutateAsync({
+        order_id: orderId,
         phone: fullPhone,
         email,
         name,
@@ -66,7 +71,7 @@ function MultiStepForm({
         payment_status: "pending",
       });
 
-      const userData = { name, email, phone: fullPhone, state };
+      const userData = { name, email, phone: fullPhone, state, orderId };
       userState.setUser(userData);
 
       try {

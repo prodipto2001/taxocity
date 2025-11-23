@@ -5,20 +5,35 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSelectedPlan, useUserContext } from "@/context/modal";
-import { formatNumber } from "@/lib/utils";
+import { formatNumber, getGSTAmount, getGSTIncludedPrice } from "@/lib/utils";
 import { purchase } from "@/lib/utils/razorpay";
+import * as React from "react";
 
 function OrderSummary() {
-  const { selectedPlan } = useSelectedPlan();
+  const [isProcessing, setIsProcessing] = React.useState(false);
+
+  const { selectedPlan, setSelectedPlan } = useSelectedPlan();
   const { user } = useUserContext();
 
   const router = useRouter();
 
-  const gstAmount = selectedPlan.price ? selectedPlan.price * 0.18 : null;
-  const gstAddedPrice =
-    selectedPlan.price && gstAmount ? selectedPlan.price + gstAmount : null;
-
   const isUserDataAvailable = user.name && user.email && user.phone;
+
+  const gstAmount = getGSTAmount(selectedPlan.price ? selectedPlan.price : 0);
+  const gstIncludedPrice = getGSTIncludedPrice(
+    selectedPlan.price ? selectedPlan.price : 0
+  );
+
+  function handlePaymentProcessing(
+    transactionID: string,
+    transactionDate: string
+  ) {
+    setSelectedPlan((prev) => ({ ...prev, transactionID, transactionDate }));
+  }
+
+  function updatePrice(revisedPrice: string) {
+    setSelectedPlan((prev) => ({ ...prev, gstIncludedPrice: revisedPrice }));
+  }
 
   function handlePayment() {
     if (!isUserDataAvailable) {
@@ -32,9 +47,12 @@ function OrderSummary() {
       phone: user.phone,
       email: user.email,
       plan: selectedPlan.title,
+      state: user.state,
       description: selectedPlan.description,
-      amount: gstAddedPrice,
-      // onPaymentStart: () => setIsProcessingPayment(true),
+      amount: Number(gstIncludedPrice),
+      onPaymentStart: () => setIsProcessing(true),
+      handlePaymentProcessing,
+      updatePrice,
     });
   }
 
@@ -43,7 +61,7 @@ function OrderSummary() {
       <CardHeader className="gap-0">
         <CardTitle className="flex flex-col sm:flex-row items-center justify-between text-[#1E1E1E]">
           <span className="font-semibold text-2xl">Order Details</span>
-          <span className="text-lg">TAX546544654</span>
+          <span className="text-lg">{user.orderId || "Loading..."}</span>
         </CardTitle>
       </CardHeader>
 
@@ -61,7 +79,7 @@ function OrderSummary() {
 
           <li className="flex items-center justify-between">
             <span>18% GST</span>
-            <span className="font-semibold">₹325</span>
+            <span className="font-semibold">₹{gstAmount}</span>
           </li>
 
           <li className="flex items-center justify-between">
@@ -71,7 +89,7 @@ function OrderSummary() {
 
           <li className="flex items-center justify-between pt-3 font-semibold text-[#1E1E1E] text-2xl">
             <span>Total</span>
-            <span>₹{formatNumber(gstAddedPrice)}</span>
+            <span>₹{formatNumber(gstIncludedPrice)}</span>
           </li>
         </ul>
 
@@ -79,8 +97,9 @@ function OrderSummary() {
           size="lg"
           className="h-12 w-full font-bold text-base bg-[#00AD5F] hover:bg-[#28865c]"
           onClick={handlePayment}
+          disabled={isProcessing}
         >
-          Pay Now
+          {isProcessing ? "Processing..." : "Pay Now"}
         </Button>
 
         <div className="space-y-2 mt-3">

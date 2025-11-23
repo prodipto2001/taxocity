@@ -15,6 +15,10 @@ async function createOrder(amount: number) {
 
 async function verifyPayment(
   response: any,
+  name: string,
+  phone: string,
+  email: string,
+  state: string,
   amount: number,
   plan: string,
   paymentDate: string
@@ -25,6 +29,10 @@ async function verifyPayment(
       orderId: response.razorpay_order_id,
       razorpayPaymentId: response.razorpay_payment_id,
       razorpaySignature: response.razorpay_signature,
+      name,
+      phone,
+      email,
+      state,
       amount: amount.toString(),
       plan,
       paymentDate,
@@ -37,20 +45,26 @@ async function purchase({
   name,
   phone,
   email,
+  state,
   plan,
   description,
   amount,
   onPaymentStart,
+  handlePaymentProcessing,
+  updatePrice,
 }: {
   name: string | null;
   phone: string | null;
   email: string | null;
+  state: string | null;
   plan: string | null;
   amount: number | null;
   description?: string | null;
   onPaymentStart?: () => void;
+  handlePaymentProcessing?: (id: string, date: string) => void;
+  updatePrice?: (price: string) => void;
 }) {
-  if (!name || !phone || !email || !plan || !description || !amount) {
+  if (!name || !phone || !email || !state || !plan || !description || !amount) {
     throw new Error("Values passed to purchase function can't be null");
   }
 
@@ -58,7 +72,7 @@ async function purchase({
 
   const paymentData = {
     key: env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-    amount: order.amount,
+    amount,
     currency: "INR",
     order_id: order.id,
     name: "Taxocity",
@@ -77,21 +91,27 @@ async function purchase({
 
       const data = await verifyPayment(
         response,
-        order.amount,
+        name,
+        phone,
+        email,
+        state,
+        amount,
         plan,
         paymentDate
       );
 
       if (data.isOk) {
-        // triggering loading overlay
         onPaymentStart?.();
+
+        handlePaymentProcessing?.(response.razorpay_payment_id, paymentDate);
+        updatePrice?.(amount.toFixed(2));
 
         // updating telecrm
         await updateTeleCRMLead({
           phone,
           email,
           order_id: response.razorpay_order_id,
-          payment_amount: order.amount / 100,
+          payment_amount: amount,
           payment_id: response.razorpay_payment_id,
           payment_status: "completed",
         });
@@ -102,7 +122,7 @@ async function purchase({
           email,
           name,
           order_id: response.razorpay_order_id,
-          payment_amount: order.amount / 100,
+          payment_amount: amount,
           payment_id: response.razorpay_payment_id,
           payment_status: "completed",
           payment_date: paymentDate,
@@ -112,18 +132,17 @@ async function purchase({
           name,
           email,
           plan,
-          amount: order.amount,
+          amount,
           paymentId: response.razorpay_payment_id,
           orderId: response.razorpay_order_id,
           paymentDate,
         });
 
-        // clearing data after successful payment
-        deleteCookie("form_completed");
-        localStorage.removeItem("user_data");
-
         // redirecting to payment success page with token
         window.location.href = `/payment-success?token=${data.token}`;
+
+        // Note: Not clearing user data yet, as payment success page needs it
+        // Data will be cleared when user navigates away or can be cleared after a timeout
       } else {
         alert("Payment failed");
       }
