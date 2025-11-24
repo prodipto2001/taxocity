@@ -39,7 +39,7 @@ async function sendEmail(data: EmailData) {
     const logoBuffer = fs.readFileSync(logoPath);
 
     const result = await resend.emails.send({
-      from: "onboarding@taxocity.com",
+      from: "Onboarding@taxocity.com",
       to: data.to,
       subject: "Payment Received Successfully – Next Steps",
       html: htmlContent,
@@ -51,6 +51,12 @@ async function sendEmail(data: EmailData) {
           contentId: "logo",
         },
       ],
+      headers: {
+        "X-Priority": "1",
+        "X-MSMail-Priority": "High",
+        Importance: "high",
+        Priority: "urgent",
+      },
     });
 
     console.log("Email sent successfully:", result);
