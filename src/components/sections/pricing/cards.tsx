@@ -66,7 +66,7 @@ function PricingCards() {
           key={`card-${item.title}`}
           className={cn(
             "relative max-w-[400px] w-full h-fit sm:h-[560px] gap-4 px-6 flex flex-col shadow-md",
-            item.title === "Company Registration" && "border-[#58B09C]",
+            item.title === "Company Registration" && "border-[#58B09C]"
           )}
         >
           {item.title === "Company Registration" && (
@@ -106,7 +106,13 @@ function PricingCards() {
                     <p> (to be paid later)</p>
                   </div>
                 ) : (
-                  <div className="hidden md:block h-5 w-full" />
+                  <div className="flex items-center justify-center gap-1 text-[#1E1E1E] text-sm xl:text-base">
+                    <div className="flex items-center">
+                      <span className="mx-1">+</span>
+                      <span>Govt. Fees</span>
+                    </div>
+                    <p> (to be paid later)</p>
+                  </div>
                 )}
               </div>
 

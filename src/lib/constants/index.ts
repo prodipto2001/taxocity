@@ -256,7 +256,7 @@ const TESTIMONIALS = [
     id: 1,
     rating: 4.8,
     message:
-      "Got my company incorporated with the help of Taxocity. The entire process was handled professionally, and they kept me updated at every step. Highly recommended.",
+      "Starting a business in India can feel overwhelming with so many legal and compliance requirements — but Taxocity made it look easy. From the very beginning, they guided me through every step. Thank you, Taxocity, for making business setup so seamless!",
     image: null,
     name: "Pankaj Mishra",
     position: null,
@@ -266,7 +266,7 @@ const TESTIMONIALS = [
     id: 2,
     rating: 4.3,
     message:
-      "Starting a business in India can feel overwhelming with so many legal and compliance requirements — but Taxocity made it look easy. From the very beginning, they guided me through every step. Thank you, Taxocity, for making business setup so seamless!",
+      "Got my company incorporated with the help of Taxocity. The entire process was handled professionally, and they kept me updated at every step. Highly recommended.",
     image: null,
     name: "Prakash Mishra",
     position: "Head of Finance",
