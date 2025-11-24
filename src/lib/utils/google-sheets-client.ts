@@ -13,6 +13,7 @@ export type GoogleSheetsLeadData = {
   payment_id?: string;
   order_id?: string;
   payment_date?: string;
+  last_updated?: string;
 };
 
 export async function updateGoogleSheetViaAPI(

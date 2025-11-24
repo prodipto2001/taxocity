@@ -21,7 +21,7 @@ async function verifyPayment(
   state: string,
   amount: number,
   plan: string,
-  paymentDate: string,
+  paymentDate: string
 ) {
   const _response = await fetch("/api/verify-payment", {
     method: "POST",
@@ -45,6 +45,7 @@ async function purchase({
   name,
   phone,
   email,
+  orderId,
   state,
   plan,
   description,
@@ -57,6 +58,7 @@ async function purchase({
   phone: string | null;
   email: string | null;
   state: string | null;
+  orderId: string | null | undefined;
   plan: string | null;
   amount: number | null;
   description?: string | null;
@@ -64,7 +66,16 @@ async function purchase({
   handlePaymentProcessing?: (id: string, date: string) => void;
   updatePrice?: (price: string) => void;
 }) {
-  if (!name || !phone || !email || !state || !plan || !description || !amount) {
+  if (
+    !name ||
+    !phone ||
+    !email ||
+    !state ||
+    !orderId ||
+    !plan ||
+    !description ||
+    !amount
+  ) {
     throw new Error("Values passed to purchase function can't be null");
   }
 
@@ -97,7 +108,7 @@ async function purchase({
         state,
         amount,
         plan,
-        paymentDate,
+        paymentDate
       );
 
       if (data.isOk) {
@@ -110,7 +121,7 @@ async function purchase({
         await updateTeleCRMLead({
           phone,
           email,
-          order_id: response.razorpay_order_id,
+          order_id: orderId,
           payment_amount: amount,
           payment_id: response.razorpay_payment_id,
           payment_status: "completed",
@@ -121,11 +132,12 @@ async function purchase({
           phone,
           email,
           name,
-          order_id: response.razorpay_order_id,
+          order_id: orderId,
           payment_amount: amount,
           payment_id: response.razorpay_payment_id,
           payment_status: "completed",
           payment_date: paymentDate,
+          last_updated: paymentDate,
         });
 
         await sendPaymentConfirmationEmail({
@@ -134,15 +146,12 @@ async function purchase({
           plan,
           amount,
           paymentId: response.razorpay_payment_id,
-          orderId: response.razorpay_order_id,
+          orderId,
           paymentDate,
         });
 
         // redirecting to payment success page with token
         window.location.href = `/payment-success?token=${data.token}`;
-
-        // Note: Not clearing user data yet, as payment success page needs it
-        // Data will be cleared when user navigates away or can be cleared after a timeout
       } else {
         alert("Payment failed");
       }

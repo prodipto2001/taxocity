@@ -1,7 +1,9 @@
 "use client";
 
+import { Info } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSelectedPlan, useUserContext } from "@/context/modal";
 import { getGSTAmount } from "@/lib/utils";
@@ -25,7 +27,7 @@ function PaymentSuccessContent() {
   >("validating");
   const [error, setError] = React.useState<string | null>(null);
   const [paymentData, setPaymentData] = React.useState<PaymentData | null>(
-    null,
+    null
   );
 
   const { user } = useUserContext();
@@ -87,7 +89,7 @@ function PaymentSuccessContent() {
           // storing payment data in sessionStorage for this session
           sessionStorage.setItem(
             "payment-success-data",
-            JSON.stringify(data.paymentData),
+            JSON.stringify(data.paymentData)
           );
 
           // removing token from URL to prevent revalidation
@@ -160,16 +162,26 @@ function PaymentSuccessContent() {
   }, [status, gstAmount, handleDownloadReceipt, error]);
 
   return (
-    <Card className="rounded-lg">
-      <CardHeader className="gap-0">
-        <CardTitle className="flex flex-col sm:flex-row items-center justify-between text-[#1E1E1E]">
-          <span className="font-semibold text-2xl">Payment Confirmation</span>
-          <span className="text-lg">{user.orderId}</span>
-        </CardTitle>
-      </CardHeader>
+    <React.Fragment>
+      <Card className="rounded-lg">
+        <CardHeader className="gap-0">
+          <CardTitle className="flex flex-col sm:flex-row items-center justify-between text-[#1E1E1E]">
+            <span className="font-semibold text-2xl">Payment Confirmation</span>
+            <span className="text-lg">{user.orderId}</span>
+          </CardTitle>
+        </CardHeader>
 
-      <CardContent className="space-y-6">{content}</CardContent>
-    </Card>
+        <CardContent className="space-y-6">{content}</CardContent>
+      </Card>
+
+      <Button
+        variant="outline"
+        size="lg"
+        className="h-10 xl:hidden w-full text-[#1E293B]"
+      >
+        <Info className="size-4" /> Contact Us
+      </Button>
+    </React.Fragment>
   );
 }
 

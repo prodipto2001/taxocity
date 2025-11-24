@@ -69,14 +69,6 @@ export default function CheckoutLayout({
           </div>
 
           {children}
-
-          <Button
-            variant="outline"
-            size="lg"
-            className="h-10 xl:hidden w-full text-[#1E293B]"
-          >
-            <Info className="size-4" /> Contact Us
-          </Button>
         </div>
       </div>
     </main>
