@@ -31,7 +31,7 @@ export function StateSelection({
   const [open, setOpen] = React.useState(false);
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen} modal={true}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -40,12 +40,12 @@ export function StateSelection({
         >
           {value ? (
             STATES.find(
-              (state) => state.value.toLowerCase() === value.toLowerCase(),
+              (state) => state.value.toLowerCase() === value.toLowerCase()
             )?.label || "State"
           ) : (
             <span
               className={cn(
-                isInvalid ? "text-destructive" : "text-muted-foreground",
+                isInvalid ? "text-destructive" : "text-muted-foreground"
               )}
             >
               Select state
@@ -55,7 +55,7 @@ export function StateSelection({
           <ChevronDown
             className={cn(
               "size-4",
-              isInvalid ? "text-destructive" : "text-muted-foreground",
+              isInvalid ? "text-destructive" : "text-muted-foreground"
             )}
           />
         </Button>
