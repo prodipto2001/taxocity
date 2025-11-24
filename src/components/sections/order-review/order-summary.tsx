@@ -11,11 +11,34 @@ import { purchase } from "@/lib/utils/razorpay";
 
 function OrderSummary() {
   const [isProcessing, setIsProcessing] = React.useState(false);
+  const [isButtonVisible, setIsButtonVisible] = React.useState(true);
 
   const { selectedPlan, setSelectedPlan } = useSelectedPlan();
   const { user } = useUserContext();
 
   const router = useRouter();
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsButtonVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+
+    if (buttonRef.current) {
+      observer.observe(buttonRef.current);
+    }
+
+    return () => {
+      if (buttonRef.current) {
+        observer.unobserve(buttonRef.current);
+      }
+    };
+  }, []);
 
   const isUserDataAvailable = user.name && user.email && user.phone;
 
@@ -95,6 +118,7 @@ function OrderSummary() {
         </ul>
 
         <Button
+          ref={buttonRef}
           size="lg"
           className="h-12 w-full font-bold text-base bg-[#00AD5F] hover:bg-[#28865c]"
           onClick={handlePayment}
@@ -102,6 +126,20 @@ function OrderSummary() {
         >
           {isProcessing ? "Processing..." : "Pay Now"}
         </Button>
+
+        {/* Sticky button when original is out of view */}
+        {!isButtonVisible && (
+          <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg p-4">
+            <Button
+              size="lg"
+              className="h-12 w-full font-bold text-base bg-[#00AD5F] hover:bg-[#28865c]"
+              onClick={handlePayment}
+              disabled={isProcessing}
+            >
+              {isProcessing ? "Processing..." : "Pay Now"}
+            </Button>
+          </div>
+        )}
 
         <div className="space-y-2 mt-3">
           <p className="text-center font-medium">
