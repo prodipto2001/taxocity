@@ -208,7 +208,7 @@ const CARD_CONTENTS: Array<{
     title: "Name Approval",
     recommended: false,
     description:
-      "Get your company up and running quickly with must-have compliances included.",
+      "Get MCA Name Approval for a Company Incorporation or LLP Registration",
     price: 999,
     inclusions: [
       {
@@ -226,7 +226,7 @@ const CARD_CONTENTS: Array<{
     title: "Company Registration",
     recommended: true,
     description:
-      "Get MCA Name Approval for a Company Incorporation or LLP Registration.",
+      "Get your company up and running quickly with must-have compliances included.",
     price: 2999,
     inclusions: [
       {
