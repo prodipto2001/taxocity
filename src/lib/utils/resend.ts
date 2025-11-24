@@ -34,12 +34,12 @@ async function sendEmail(data: EmailData) {
       process.cwd(),
       "public",
       "logos",
-      "taxocity.png",
+      "taxocity.png"
     );
     const logoBuffer = fs.readFileSync(logoPath);
 
     const result = await resend.emails.send({
-      from: `${data.brandName} <onboarding@resend.dev>`, // TODO: replace with company email
+      from: "onboarding@taxocity.com",
       to: data.to,
       subject: "Payment Received Successfully – Next Steps",
       html: htmlContent,

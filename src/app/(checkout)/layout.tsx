@@ -1,11 +1,9 @@
-import { Info } from "lucide-react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { ContactUs } from "@/components/sections/order-review/contact-us";
 import { Marquee } from "@/components/ui/marquee";
 import { Rating } from "@/components/ui/rating";
 import { COMPANY_LOGOS, TESTIMONIALS } from "@/lib/constants";
 import { getInitials } from "@/lib/utils";
-import { ContactUs } from "@/components/sections/order-review/contact-us";
 
 export default function CheckoutLayout({
   children,
