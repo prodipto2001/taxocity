@@ -21,7 +21,7 @@ async function verifyPayment(
   state: string,
   amount: number,
   plan: string,
-  paymentDate: string
+  paymentDate: string,
 ) {
   const _response = await fetch("/api/verify-payment", {
     method: "POST",
@@ -108,7 +108,7 @@ async function purchase({
         state,
         amount,
         plan,
-        paymentDate
+        paymentDate,
       );
 
       if (data.isOk) {

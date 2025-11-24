@@ -66,7 +66,7 @@ function PricingCards() {
           key={`card-${item.title}`}
           className={cn(
             "relative max-w-[400px] w-full h-fit sm:h-[560px] gap-4 px-6 flex flex-col shadow-md",
-            item.title === "Company Registration" && "border-[#58B09C]"
+            item.title === "Company Registration" && "border-[#58B09C]",
           )}
         >
           {item.title === "Company Registration" && (

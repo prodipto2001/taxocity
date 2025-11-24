@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
         ip: "Unknown",
         error: "Failed to retrieve IP address",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

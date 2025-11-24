@@ -26,7 +26,7 @@ function PaymentSuccessContent() {
   >("validating");
   const [error, setError] = React.useState<string | null>(null);
   const [paymentData, setPaymentData] = React.useState<PaymentData | null>(
-    null
+    null,
   );
 
   const { user } = useUserContext();
@@ -88,7 +88,7 @@ function PaymentSuccessContent() {
           // storing payment data in sessionStorage for this session
           sessionStorage.setItem(
             "payment-success-data",
-            JSON.stringify(data.paymentData)
+            JSON.stringify(data.paymentData),
           );
 
           // removing token from URL to prevent revalidation

@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     if (!token) {
       return NextResponse.json(
         { success: false, message: "reCAPTCHA token is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
         message: "reCAPTCHA verification failed. Please try again.",
         errors: data["error-codes"],
       },
-      { status: 400 }
+      { status: 400 },
     );
   } catch (error) {
     console.error("reCAPTCHA verification error:", error);
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
         success: false,
         message: "An error occurred during reCAPTCHA verification",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

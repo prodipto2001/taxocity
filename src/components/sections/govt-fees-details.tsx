@@ -34,7 +34,7 @@ function GovtFeesDetails({ children }: { children: React.ReactNode }) {
     if (!userStateData) return false;
 
     const userStateFee = GOVERNMENT_FEES.find(
-      (fee) => fee.state === userStateData.label
+      (fee) => fee.state === userStateData.label,
     );
 
     return !!userStateFee;
@@ -51,7 +51,7 @@ function GovtFeesDetails({ children }: { children: React.ReactNode }) {
     }
 
     const userStateFee = GOVERNMENT_FEES.find(
-      (fee) => fee.state === userStateData.label
+      (fee) => fee.state === userStateData.label,
     );
 
     if (!userStateFee) {

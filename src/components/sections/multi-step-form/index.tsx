@@ -38,10 +38,10 @@ function MultiStepForm({
   const teleCRMMutation = useTeleCRMMutation();
   const googleSheetsMutation = useGoogleSheetsMutation();
   const [recaptchaError, setRecaptchaError] = React.useState<string | null>(
-    null
+    null,
   );
   const [ipAddress, setIpAddress] = React.useState<string | undefined>(
-    undefined
+    undefined,
   );
 
   async function onSubmit() {
@@ -61,7 +61,7 @@ function MultiStepForm({
         // Execute reCAPTCHA verification
         if (!executeRecaptcha) {
           setRecaptchaError(
-            "reCAPTCHA not loaded. Please refresh the page and try again."
+            "reCAPTCHA not loaded. Please refresh the page and try again.",
           );
           return;
         }
@@ -82,7 +82,7 @@ function MultiStepForm({
         if (!verificationData.success) {
           setRecaptchaError(
             verificationData.message ||
-              "reCAPTCHA verification failed. Please try again."
+              "reCAPTCHA verification failed. Please try again.",
           );
           return;
         }
@@ -130,7 +130,7 @@ function MultiStepForm({
       } catch (error) {
         console.error("Error during form submission:", error);
         setRecaptchaError(
-          "An error occurred during verification. Please try again."
+          "An error occurred during verification. Please try again.",
         );
       }
     }
