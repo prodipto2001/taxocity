@@ -11,10 +11,12 @@ export function UserDetailsForm({
   form,
   isSubmitting,
   handleNext,
+  recaptchaError,
 }: {
   form: UseFormReturn<FormSchema>;
   isSubmitting: boolean;
   handleNext: () => void;
+  recaptchaError?: string | null;
 }) {
   return (
     <FieldSet>
@@ -150,6 +152,12 @@ export function UserDetailsForm({
           )}
         />
       </FieldGroup>
+
+      {recaptchaError && (
+        <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
+          {recaptchaError}
+        </div>
+      )}
 
       <Button
         onClick={handleNext}
