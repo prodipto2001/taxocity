@@ -14,6 +14,7 @@ export type GoogleSheetsLeadData = {
   order_id?: string;
   payment_date?: string;
   last_updated?: string;
+  ip_address?: string;
 };
 
 export async function updateGoogleSheetViaAPI(

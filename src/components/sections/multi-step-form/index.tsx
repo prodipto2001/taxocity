@@ -40,6 +40,9 @@ function MultiStepForm({
   const [recaptchaError, setRecaptchaError] = React.useState<string | null>(
     null
   );
+  const [ipAddress, setIpAddress] = React.useState<string | undefined>(
+    undefined
+  );
 
   async function onSubmit() {
     const step1Fields = [
@@ -106,6 +109,7 @@ function MultiStepForm({
           name,
           state,
           payment_status: "pending",
+          ip_address: ipAddress,
         });
 
         const userData = { name, email, phone: fullPhone, state, orderId };
@@ -131,6 +135,23 @@ function MultiStepForm({
       }
     }
   }
+
+  React.useEffect(() => {
+    // Fetch IP address when component mounts
+    const fetchIpAddress = async () => {
+      try {
+        const ipResponse = await fetch("/api/get-ip");
+        const ipData = await ipResponse.json();
+        if (ipData.success) {
+          setIpAddress(ipData.ip);
+        }
+      } catch (error) {
+        console.error("Failed to fetch IP address on mount:", error);
+      }
+    };
+
+    fetchIpAddress();
+  }, []);
 
   React.useEffect(() => {
     // resetting only when in modal flow and when modal closes

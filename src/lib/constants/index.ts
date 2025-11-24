@@ -14,6 +14,7 @@ const GOOGLE_SHEET_COLUMNS = {
   ORDER_ID: 7, // H
   PAYMENT_DATE: 8, // I
   LAST_UPDATED: 9, // J
+  IP_ADDRESS: 10, // K
 } as const;
 
 const GOOGLE_SHEET_NAME = "Sheet1";

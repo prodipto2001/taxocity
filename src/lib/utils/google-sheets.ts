@@ -27,14 +27,14 @@ async function ensureHeaders(
   // checking if headers exist
   const response = await sheetsClient.spreadsheets.values.get({
     spreadsheetId,
-    range: `${GOOGLE_SHEET_NAME}!A1:J1`,
+    range: `${GOOGLE_SHEET_NAME}!A1:K1`,
   });
 
   if (!response.data.values || response.data.values.length === 0) {
     // adding headers
     await sheetsClient.spreadsheets.values.update({
       spreadsheetId,
-      range: `${GOOGLE_SHEET_NAME}!A1:J1`,
+      range: `${GOOGLE_SHEET_NAME}!A1:K1`,
       valueInputOption: "RAW",
       requestBody: {
         values: [
@@ -49,6 +49,7 @@ async function ensureHeaders(
             "Order ID",
             "Payment Date",
             "Last Updated",
+            "IP Address",
           ],
         ],
       },
@@ -118,6 +119,8 @@ function dataToRow(
     row[GOOGLE_SHEET_COLUMNS.ORDER_ID] = data.order_id;
   if (data.payment_date !== undefined)
     row[GOOGLE_SHEET_COLUMNS.PAYMENT_DATE] = data.payment_date;
+  if (data.ip_address !== undefined)
+    row[GOOGLE_SHEET_COLUMNS.IP_ADDRESS] = data.ip_address;
 
   // use provided last_updated or generate new timestamp
   row[GOOGLE_SHEET_COLUMNS.LAST_UPDATED] = data.last_updated ?? now;
@@ -153,7 +156,7 @@ async function upsertLeadData(data: GoogleSheetsLeadData): Promise<{
     // getting the existing row data
     const existingResponse = await sheetsClient.spreadsheets.values.get({
       spreadsheetId,
-      range: `${GOOGLE_SHEET_NAME}!A${existingRowIndex}:J${existingRowIndex}`,
+      range: `${GOOGLE_SHEET_NAME}!A${existingRowIndex}:K${existingRowIndex}`,
     });
 
     const existingRowData = existingResponse.data.values?.[0] || [];
@@ -161,7 +164,7 @@ async function upsertLeadData(data: GoogleSheetsLeadData): Promise<{
 
     await sheetsClient.spreadsheets.values.update({
       spreadsheetId,
-      range: `${GOOGLE_SHEET_NAME}!A${existingRowIndex}:J${existingRowIndex}`,
+      range: `${GOOGLE_SHEET_NAME}!A${existingRowIndex}:K${existingRowIndex}`,
       valueInputOption: "USER_ENTERED",
       requestBody: {
         values: [updatedRow],
@@ -180,7 +183,7 @@ async function upsertLeadData(data: GoogleSheetsLeadData): Promise<{
 
   await sheetsClient.spreadsheets.values.append({
     spreadsheetId,
-    range: `${GOOGLE_SHEET_NAME}!A:J`,
+    range: `${GOOGLE_SHEET_NAME}!A:K`,
     valueInputOption: "USER_ENTERED",
     requestBody: {
       values: [newRow],

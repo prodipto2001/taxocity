@@ -184,7 +184,7 @@ function Footer() {
         {/* Legal Disclaimer */}
         <div className="mt-16">
           <p className="text-sm text-black font-semibold mb-6">
-            By continuing past this page, you agree to our{" "}
+            By accessing or using this website, you agree to our{" "}
             <Link
               href="https://taxocity.com/terms-conditions"
               target="_blank"
@@ -224,7 +224,7 @@ function Footer() {
               target="_blank"
               className="hover:underline"
             >
-              Taxocity Enterprise Private Limited.
+              © Taxocity Enterprise Private Limited.
             </Link>{" "}
             All rights reserved.
           </p>
@@ -233,16 +233,19 @@ function Footer() {
               Website Disclaimer:
             </h4>
             <p className="text-sm text-black leading-tight font-medium">
-              This website is privately operated and not affiliated with any
-              government entity. We do not represent or are affiliated with,
-              endorsed by, or in any way connected to any government body or
-              department. The form provided is not for official registration
-              purposes; rather, it's designed to gather information from our
-              clients to help us better understand their business or compliance
-              needs. By continuing to use this website, you acknowledge that we
-              are a private company. We offer assistance based on customer
-              requests, and the fees collected on this website are charged as a
-              platform fee.
+              This website is owned and operated by Taxocity Enterprise Private
+              Limited and is not affiliated with or endorsed by any government
+              agency or authority. We are a private service provider offering
+              assistance with business and compliance needs. Information and
+              forms submitted on this website are not for official government
+              filing and are used only to understand and support your service
+              requests. By using this website, you acknowledge that Taxocity
+              Enterprise Private Limited is a private company, not a government
+              body. Fees charged on this website are service or platform fees.
+              All assistance is provided only upon client request, based on the
+              information shared by the user. For security and analytics
+              purposes, we collect user IP addresses along with other submitted
+              information.
             </p>
           </div>
 
