@@ -1,15 +1,9 @@
-import { Roboto } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 
-const roboto = Roboto({
-  variable: "--font-roboto",
-  subsets: ["latin"],
-});
-
 function Footer() {
   return (
-    <footer className={roboto.className}>
+    <footer className="font-sans">
       <div className="max-w-[1256px] mx-auto px-5 md:px-16 py-20">
         <div className="grid grid-cols-2 gap-8 md:flex md:items-stretch md:justify-between">
           {/* Brand Section */}

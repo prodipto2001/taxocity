@@ -20,9 +20,11 @@ import {
 import { useUserContext } from "@/context/modal";
 import { GOVERNMENT_FEES, STATES } from "@/lib/constants";
 import { formatNumber } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
 function GovtFeesDetails({ children }: { children: React.ReactNode }) {
   const { user } = useUserContext();
+  const pathname = usePathname();
 
   const hasUserState = useMemo(() => {
     if (!user.state) return false;
@@ -32,7 +34,7 @@ function GovtFeesDetails({ children }: { children: React.ReactNode }) {
     if (!userStateData) return false;
 
     const userStateFee = GOVERNMENT_FEES.find(
-      (fee) => fee.state === userStateData.label,
+      (fee) => fee.state === userStateData.label
     );
 
     return !!userStateFee;
@@ -49,7 +51,7 @@ function GovtFeesDetails({ children }: { children: React.ReactNode }) {
     }
 
     const userStateFee = GOVERNMENT_FEES.find(
-      (fee) => fee.state === userStateData.label,
+      (fee) => fee.state === userStateData.label
     );
 
     if (!userStateFee) {
@@ -76,7 +78,7 @@ function GovtFeesDetails({ children }: { children: React.ReactNode }) {
           <div>
             <Table>
               <TableHeader>
-                <TableRow className="h-14 text-base text-[#3F3F3F] font-semibold bg-[#6B7280]/40 border-none hover:bg-[#6B7280]/40">
+                <TableRow className="h-14 text-base text-[#3F3F3F] font-semibold bg-[#6B7280]/25 border-none hover:bg-[#6B7280]/40">
                   <TableHead className="p-3 rounded-tl-lg whitespace-nowrap font-bold">
                     State of Registration
                   </TableHead>
@@ -102,7 +104,9 @@ function GovtFeesDetails({ children }: { children: React.ReactNode }) {
                   <TableRow
                     key={fee.state}
                     className={`h-14 text-base ${
-                      index === 0 && hasUserState
+                      pathname.includes("/pricing") &&
+                      index === 0 &&
+                      hasUserState
                         ? "font-bold bg-[#58B09C]/80 hover:bg-[#58B09C]/80"
                         : ""
                     }`}

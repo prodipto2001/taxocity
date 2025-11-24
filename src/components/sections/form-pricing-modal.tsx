@@ -19,7 +19,7 @@ function FormPricingModal() {
       <DialogContent className="font-sans gap-6">
         <DialogHeader>
           <DialogTitle className="text-2xl md:text-4xl font-bold">
-            Register your private ltd. company
+            Register your Private Ltd. Company
           </DialogTitle>
         </DialogHeader>
         <div>

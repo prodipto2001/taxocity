@@ -33,8 +33,7 @@ function Hero() {
           <div className="space-y-3">
             <h1 className="text-4xl md:text-5xl font-black leading-[120%] text-[#1E293B]">
               Register Your Private <br className="hidden md:flex" /> Limited
-              Company in India -
-              <br className="hidden md:flex" /> Starting @ ₹2,999
+              Company in India
             </h1>
 
             <p className="md:text-lg leading-normal text-[#1A1A1A]/60 font-normal">

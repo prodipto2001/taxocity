@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSelectedPlan, useUserContext } from "@/context/modal";
 import { formatNumber, getGSTAmount, getGSTIncludedPrice } from "@/lib/utils";
 import { purchase } from "@/lib/utils/razorpay";
-import * as React from "react";
 
 function OrderSummary() {
   const [isProcessing, setIsProcessing] = React.useState(false);
@@ -70,7 +70,7 @@ function OrderSummary() {
         <ul className="text-sm sm:text-base mb-6 py-3 border-y border-[#6B7280]/40 text-[#6B7280]">
           <li className="flex items-center justify-between">
             <span>Package</span>
-            <span className="font-semibold">Pvt Ltd company incorporation</span>
+            <span className="font-semibold">{selectedPlan.title} Plan</span>
           </li>
 
           <li className="flex items-center justify-between">

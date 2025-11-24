@@ -33,7 +33,7 @@ function WhyTaxocity() {
               />
 
               <p>
-                With nearly five decades of experience, TaxoCity has evolved
+                With nearly three decades of experience, TaxoCity has evolved
                 from a traditional tax consulting firm to a comprehensive
                 business ecosystem. We’ve helped thousands of entrepreneurs
                 transform their ideas into legally compliant, thriving
@@ -69,7 +69,7 @@ function WhyTaxocity() {
 
           <Card className="h-fit lg:h-[680px] bg-[#DEE8F2] text-[#1E293B] text-lg border-[#1E293B] group">
             <CardHeader>
-              <CardTitle>Our Legacy and Experience</CardTitle>
+              <CardTitle>Our Comprehensive Approach</CardTitle>
               <div className="bg-linear-to-r from-[#1E293B] to-transparent w-44 h-px" />
             </CardHeader>
 
@@ -83,11 +83,11 @@ function WhyTaxocity() {
               />
 
               <p>
-                With nearly five decades of experience, TaxoCity has evolved
-                from a traditional tax consulting firm to a comprehensive
-                business ecosystem. We’ve helped thousands of entrepreneurs
-                transform their ideas into legally compliant, thriving
-                enterprises while staying ahead of regulatory changes.
+                We offer a connected ecosystem that supports your entire
+                business journey—from company registration and trademark
+                protection to ongoing tax compliance and growth support. Our
+                integrated team of experts provides holistic solutions that save
+                time and ensure 100% compliance.
               </p>
             </CardContent>
           </Card>

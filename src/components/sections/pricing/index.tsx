@@ -8,7 +8,7 @@ export function Pricing() {
           Right Plan for Your Business
         </h2>
         <p className="md:text-lg text-center text-[#3F3F3F]">
-          Guaranteed Application Submission within 7 Days
+          Business setup made simple. Just as it should be
         </p>
       </div>
 

@@ -5,6 +5,7 @@ import { Marquee } from "@/components/ui/marquee";
 import { Rating } from "@/components/ui/rating";
 import { COMPANY_LOGOS, TESTIMONIALS } from "@/lib/constants";
 import { getInitials } from "@/lib/utils";
+import { ContactUs } from "@/components/sections/order-review/contact-us";
 
 export default function CheckoutLayout({
   children,
@@ -16,7 +17,7 @@ export default function CheckoutLayout({
       <div className="mx-auto max-w-[1256px] flex flex-col-reverse xl:flex-row">
         <div className="w-auto xl:max-w-[550px] space-y-6 md:space-y-12 py-14 px-6 md:px-12 mt-12 md:mt-0">
           <div className="relative flex w-full flex-col items-center justify-center gap-20 overflow-hidden">
-            <Marquee pauseOnHover className="[--duration:20s] [--gap:100px]">
+            <Marquee pauseOnHover className="[--duration:30s] [--gap:100px]">
               {COMPANY_LOGOS.map((logo, index) => (
                 <BrandCard key={`${logo}-${index + 1}`} {...logo} />
               ))}
@@ -30,7 +31,7 @@ export default function CheckoutLayout({
           </h1>
 
           <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
-            <Marquee pauseOnHover className="[--duration:20s]  [--gap:32px]">
+            <Marquee pauseOnHover className="[--duration:30s]  [--gap:32px]">
               {TESTIMONIALS.map((testimonial, index) => (
                 <TestimonialCard
                   key={`${testimonial.id}-${index}`}
@@ -42,14 +43,7 @@ export default function CheckoutLayout({
             <div className="from-background to-transparent pointer-events-none absolute inset-y-0 -right-0.5 w-5 md:w-14 bg-linear-to-l" />
           </div>
 
-          <div className="hidden xl:flex items-center justify-between">
-            <h3 className="font-medium text-[#1E293B]">
-              Need help with payment?
-            </h3>
-            <Button variant="outline" className="text-[#1E293B]">
-              <Info className="size-4" /> Contact Us
-            </Button>
-          </div>
+          <ContactUs />
         </div>
 
         <div className="space-y-12 px-2 py-12 md:py-14 md:px-12 bg-[#B3DBFF]/10">

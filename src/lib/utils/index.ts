@@ -24,10 +24,10 @@ export function getInitials(name: string): string {
 }
 
 export function getGSTAmount(price: number): string {
-  return (price * (GST_PERCENT / 100)).toFixed(2);
+  return (price * (GST_PERCENT / 100)).toFixed(0);
 }
 
 export function getGSTIncludedPrice(price: number) {
   const gstValue = getGSTAmount(price);
-  return (price + Number(gstValue)).toFixed(2);
+  return (price + Number(gstValue)).toFixed(0);
 }

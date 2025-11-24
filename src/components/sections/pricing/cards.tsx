@@ -15,7 +15,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useModalOpen, useSelectedPlan, useUserContext } from "@/context/modal";
 import { CARD_CONTENTS } from "@/lib/constants";
-import { formatNumber } from "@/lib/utils";
+import { cn, formatNumber } from "@/lib/utils";
 
 type Plan = {
   title: string | null;
@@ -64,13 +64,22 @@ function PricingCards() {
       {CARD_CONTENTS.map((item, index) => (
         <Card
           key={`card-${item.title}`}
-          className="max-w-[400px] w-full h-fit sm:h-[560px] gap-4 px-6 flex flex-col shadow-md"
+          className={cn(
+            "relative max-w-[400px] w-full h-fit sm:h-[560px] gap-4 px-6 flex flex-col shadow-md",
+            item.title === "Company Registration" && "border-[#58B09C]"
+          )}
         >
+          {item.title === "Company Registration" && (
+            <span className="absolute -top-4  left-1/2 -translate-x-1/2 flex items-center gap-1 py-2 px-4 rounded-full border-[#58B09C] bg-[#58B09C] text-xs text-white font-medium">
+              Recommended
+            </span>
+          )}
+
           <CardHeader className="px-0 relative">
-            <CardTitle className="flex items-center justify-between text-[28px] text-[#1E293B] font-bold">
+            <CardTitle className="flex items-center justify-center text-[28px] text-[#1E293B] font-bold">
               {item.title}
             </CardTitle>
-            <CardDescription className="text-[#3F3F3F] text-base font-semibold">
+            <CardDescription className="text-[#3F3F3F] text-base  text-center font-semibold">
               {item.description}
             </CardDescription>
           </CardHeader>
@@ -79,30 +88,49 @@ function PricingCards() {
 
           <CardContent className="px-0 flex-1 flex flex-col justify-between">
             <div className="flex flex-col gap-6">
-              <div className="flex items-center gap-2">
-                <h1 className="text-5xl xl:text-[56px] font-bold leading-[120%] text-[#1D364D] tabular-nums">
+              <div className="space-y-2">
+                <h1 className="text-center text-5xl xl:text-[56px] font-bold leading-[120%] text-[#1D364D] tabular-nums">
                   ₹{formatNumber(item.price)}
                 </h1>
 
-                <div className="text-[#1E1E1E] text-sm xl:text-base">
-                  <div className="flex items-center gap-1 text-nowrap">
-                    + GST +{" "}
-                    <span className="text-base underline underline-offset-2">
-                      Govt. Fees
-                    </span>
-                    <GovtFeesDetails>
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        className="-ml-1 sm:ml-0 size-6 cursor-pointer font-normal hover:bg-transparent border border-transparent hover:border-input font-sans"
-                      >
-                        <Info className="size-3" />
-                      </Button>
-                    </GovtFeesDetails>
+                {item.title !== "Name Approval" ? (
+                  <div className="flex items-center justify-center gap-1 text-[#1E1E1E] text-sm xl:text-base">
+                    <div className="flex items-center">
+                      <span className="mx-1">+</span>
+                      <GovtFeesDetails>
+                        <span className="cursor-pointer underline underline-offset-2">
+                          Govt. Fees
+                        </span>
+                      </GovtFeesDetails>
+                    </div>
+                    <p> (to be paid later)</p>
                   </div>
+                ) : (
+                  <div className="hidden md:block h-5 w-full" />
+                )}
+              </div>
 
-                  <p> (to be paid later)</p>
-                </div>
+              <div>
+                {pathname.includes("/pricing") ? (
+                  <Button
+                    size="lg"
+                    variant="brand"
+                    className="w-full"
+                    disabled={!isUserDataAvailable}
+                    onClick={() => handleProceed(item)}
+                  >
+                    Proceed
+                  </Button>
+                ) : (
+                  <Button
+                    size="lg"
+                    variant="brand"
+                    className="w-full"
+                    onClick={() => handleGetStarted(item)}
+                  >
+                    Get {item.title}
+                  </Button>
+                )}
               </div>
 
               <div className="space-y-4">
@@ -123,29 +151,6 @@ function PricingCards() {
                   ))}
                 </ul>
               </div>
-            </div>
-
-            <div className="mt-6 sm:mt-0">
-              {pathname.includes("/pricing") ? (
-                <Button
-                  size="lg"
-                  variant="brand"
-                  className="w-full"
-                  disabled={!isUserDataAvailable}
-                  onClick={() => handleProceed(item)}
-                >
-                  Proceed
-                </Button>
-              ) : (
-                <Button
-                  size="lg"
-                  variant="brand"
-                  className="w-full"
-                  onClick={() => handleGetStarted(item)}
-                >
-                  Get {item.title}
-                </Button>
-              )}
             </div>
           </CardContent>
         </Card>

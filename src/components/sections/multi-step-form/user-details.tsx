@@ -35,7 +35,7 @@ export function UserDetailsForm({
                 className={cn(
                   fieldState.invalid
                     ? "placeholder:text-destructive"
-                    : "placeholder:text-muted-foreground",
+                    : "placeholder:text-muted-foreground"
                 )}
               />
             </Field>
@@ -60,7 +60,7 @@ export function UserDetailsForm({
                 className={cn(
                   fieldState.invalid
                     ? "placeholder:text-destructive"
-                    : "placeholder:text-muted-foreground",
+                    : "placeholder:text-muted-foreground"
                 )}
               />
             </Field>
@@ -75,7 +75,7 @@ export function UserDetailsForm({
             className={cn(
               form.formState.errors.phone || form.formState.errors.countryCode
                 ? "text-destructive"
-                : "",
+                : ""
             )}
           >
             Enter phone number
@@ -85,7 +85,7 @@ export function UserDetailsForm({
               "flex items-center border rounded-md",
               form.formState.errors.phone || form.formState.errors.countryCode
                 ? "border-destructive"
-                : "border-[#6B7280]",
+                : "border-[#6B7280]"
             )}
           >
             <Controller
@@ -103,7 +103,7 @@ export function UserDetailsForm({
             <div
               className={cn(
                 "w-px h-6",
-                form.formState.errors.phone ? "bg-destructive" : "bg-[#6B7280]",
+                form.formState.errors.phone ? "bg-destructive" : "bg-[#6B7280]"
               )}
             />
 
@@ -157,7 +157,7 @@ export function UserDetailsForm({
         size="lg"
         disabled={isSubmitting}
       >
-        {isSubmitting ? "Saving..." : "Get Started"}
+        {isSubmitting ? "Saving..." : "Submit"}
       </Button>
 
       <p className="text-center">

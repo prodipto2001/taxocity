@@ -38,7 +38,7 @@ function RequiredDocuments() {
           </ul>
         </div>
 
-        <div>
+        {/* <div>
           <h4 className="font-bold mb-1 text-[#1E293B]">
             For Foreign Nationals
           </h4>
@@ -86,7 +86,7 @@ function RequiredDocuments() {
               </span>
             </li>
           </ul>
-        </div>
+        </div> */}
 
         <div>
           <h4 className="font-bold mb-1 text-[#1E293B]">

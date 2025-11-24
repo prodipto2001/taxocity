@@ -207,8 +207,8 @@ const CARD_CONTENTS: Array<{
     title: "Name Approval",
     recommended: false,
     description:
-      "Register Your Company in Just 7–10 Days – Online & Hassle-Free!",
-    price: 2899,
+      "Get your company up and running quickly with must-have compliances included.",
+    price: 999,
     inclusions: [
       {
         title: "Name Application Fee",
@@ -225,8 +225,8 @@ const CARD_CONTENTS: Array<{
     title: "Company Registration",
     recommended: true,
     description:
-      "Get your company up and running quickly with must-have compliances included.",
-    price: 6899,
+      "Get MCA Name Approval for a Company Incorporation or LLP Registration.",
+    price: 2999,
     inclusions: [
       {
         title: "MCA Name Approval",

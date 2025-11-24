@@ -8,7 +8,7 @@ export function TrustedCompanies() {
       <div className="mx-auto max-w-[1256px] flex flex-col items-center gap-6 md:gap-20">
         <div className="space-y-2">
           <h2 className="text-[32px] md:text-5xl font-bold text-center text-[#1E293B]">
-            Brands that trusts us
+            Brands that trust us
           </h2>
           <p className="md:text-lg text-center px-8 md:px-0 text-[#3F3F3F]">
             Over 1000+ companies incorporated in last 30 years

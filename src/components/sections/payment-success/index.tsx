@@ -1,14 +1,13 @@
 "use client";
 
-import { Info } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import * as React from "react";
-import { Button } from "@/components/ui/button";
+import { ContactUsButton } from "@/components/sections/order-review/contact-us";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSelectedPlan, useUserContext } from "@/context/modal";
 import { getGSTAmount } from "@/lib/utils";
 import { deleteCookie } from "@/lib/utils/cookies";
 import { generatePaymentReceiptPDF } from "@/lib/utils/pdf";
+import { useRouter, useSearchParams } from "next/navigation";
+import * as React from "react";
 import { ErrorContent } from "./error-content";
 import { SuccessContent } from "./success-content";
 import { ValidatingContent } from "./validation-content";
@@ -174,13 +173,7 @@ function PaymentSuccessContent() {
         <CardContent className="space-y-6">{content}</CardContent>
       </Card>
 
-      <Button
-        variant="outline"
-        size="lg"
-        className="h-10 xl:hidden w-full text-[#1E293B]"
-      >
-        <Info className="size-4" /> Contact Us
-      </Button>
+      <ContactUsButton />
     </React.Fragment>
   );
 }

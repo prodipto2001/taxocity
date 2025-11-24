@@ -1,9 +1,8 @@
-import { Info } from "lucide-react";
-import Image from "next/image";
-import * as React from "react";
+import { ContactUsButton } from "@/components/sections/order-review/contact-us";
 import { OrderSummary } from "@/components/sections/order-review/order-summary";
 import { UserDetails } from "@/components/sections/order-review/user-details";
-import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import * as React from "react";
 
 export default function OrderReviewPage() {
   return (
@@ -12,13 +11,7 @@ export default function OrderReviewPage() {
 
       <OrderSummary />
 
-      <Button
-        variant="outline"
-        size="lg"
-        className="h-10 xl:hidden w-full text-[#1E293B]"
-      >
-        <Info className="size-4" /> Contact Us
-      </Button>
+      <ContactUsButton />
 
       <UserDetails />
     </React.Fragment>
