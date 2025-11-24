@@ -1,5 +1,6 @@
-import { sendEmail } from "@/lib/utils/resend";
 import { type NextRequest, NextResponse } from "next/server";
+import { env } from "@/env";
+import { sendEmail } from "@/lib/utils/resend";
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,7 +30,8 @@ export async function POST(request: NextRequest) {
       orderId: data.orderId,
       brandName: "Taxocity",
       paymentDate: data.paymentDate,
-      formLink: "", // TODO: add typeform link
+      directorFormLink: env.NEXT_PUBLIC_DIRECTOR_FORM_LINK,
+      documentUploadLink: env.NEXT_PUBLIC_DOCUMENT_UPLOAD_LINK,
     });
 
     return NextResponse.json({ success: true, result });

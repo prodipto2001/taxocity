@@ -14,8 +14,9 @@ export type EmailData = {
   orderId: string;
   brandName: string;
   paymentDate: string;
-  formLink: string;
   // paymentMode: string
+  directorFormLink: string;
+  documentUploadLink: string;
 };
 
 async function sendEmail(data: EmailData) {

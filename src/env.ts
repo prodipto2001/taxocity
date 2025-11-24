@@ -26,6 +26,9 @@ export const env = createEnv({
     NEXT_PUBLIC_RAZORPAY_KEY_ID: z.string(),
 
     NEXT_PUBLIC_GOOGLE_RECAPTCHA_SECRET_KEY: z.string(),
+
+    NEXT_PUBLIC_DIRECTOR_FORM_LINK: z.string(),
+    NEXT_PUBLIC_DOCUMENT_UPLOAD_LINK: z.string(),
   },
   // If you're using Next.js < 13.4.4, you'll need to specify the runtimeEnv manually
   runtimeEnv: {
@@ -50,5 +53,9 @@ export const env = createEnv({
 
     NEXT_PUBLIC_GOOGLE_RECAPTCHA_SECRET_KEY:
       process.env.NEXT_PUBLIC_GOOGLE_RECAPTCHA_SITE_KEY,
+
+    NEXT_PUBLIC_DIRECTOR_FORM_LINK: process.env.NEXT_PUBLIC_DIRECTOR_FORM_LINK,
+    NEXT_PUBLIC_DOCUMENT_UPLOAD_LINK:
+      process.env.NEXT_PUBLIC_DOCUMENT_UPLOAD_LINK,
   },
 });
