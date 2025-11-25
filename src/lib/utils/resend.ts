@@ -51,6 +51,12 @@ async function sendEmail(data: EmailData) {
           contentId: "logo",
         },
       ],
+      headers: {
+        "X-Priority": "1",
+        "X-MSMail-Priority": "High",
+        Importance: "high",
+        Priority: "urgent",
+      },
     });
 
     console.log("Email sent successfully:", result);
