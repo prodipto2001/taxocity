@@ -39,7 +39,7 @@ async function sendEmail(data: EmailData) {
     const logoBuffer = fs.readFileSync(logoPath);
 
     const result = await resend.emails.send({
-      from: "onboarding@taxocity.com",
+      from: "Taxocity Incorporation Team <onboarding@taxocity.com>",
       to: data.to,
       subject: "Payment Received Successfully – Next Steps",
       html: htmlContent,
