@@ -1,5 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+
 
 function Footer() {
   return (
@@ -23,6 +26,13 @@ function Footer() {
               </p>
               <p>CIN: U70200DL2025PTC453592</p>
             </div>
+            <Link
+            href="https://taxocity.com/contact-us"
+            target="_blank"
+            className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
+            >
+            Contact Us
+          </Link>
           </div>
 
           {/* Company Incorporation */}
