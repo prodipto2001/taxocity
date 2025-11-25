@@ -41,7 +41,7 @@ async function sendEmail(data: EmailData) {
     const result = await resend.emails.send({
       from: "Taxocity Incorporation Team <onboarding@taxocity.com>",
       to: data.to,
-      subject: "Payment Received Successfully – Next Steps",
+      subject: "Action Required: Complete Your Company Incorporation Steps",
       html: htmlContent,
       text: textFallback,
       attachments: [
@@ -51,6 +51,11 @@ async function sendEmail(data: EmailData) {
           contentId: "logo",
         },
       ],
+      headers: {
+      "X-Priority": "1",              // High priority
+      "X-MSMail-Priority": "High",    // Outlook priority
+      "Importance": "High"            // Generic importance header
+    }
     });
 
     console.log("Email sent successfully:", result);

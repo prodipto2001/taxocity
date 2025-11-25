@@ -11,6 +11,12 @@ function getHTMLContent(data: EmailData) {
 
   <body style="margin:0; padding:0; font-family:Arial, sans-serif;">
 
+  <!-- Preheader (Hidden Preview Text) -->
+  <span style="display:none; font-size:1px; color:#ffffff; line-height:1px;
+  max-height:0; max-width:0; opacity:0; overflow:hidden;">
+    Please submit director details and upload documents to begin your incorporation process.
+  </span>
+
     <!-- Full Width Wrapper -->
     <table width="100%" border="0" cellspacing="0" cellpadding="0" 
            style="padding:16px 8px;">
