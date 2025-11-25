@@ -13,8 +13,7 @@ const GOOGLE_SHEET_COLUMNS = {
   PAYMENT_ID: 6, // G
   ORDER_ID: 7, // H
   PAYMENT_DATE: 8, // I
-  LAST_UPDATED: 9, // J
-  IP_ADDRESS: 10, // K
+  IP_ADDRESS: 9, // J
 } as const;
 
 const GOOGLE_SHEET_NAME = "Sheet1";
@@ -209,7 +208,7 @@ const CARD_CONTENTS: Array<{
     recommended: false,
     description:
       "Get MCA Name Approval for a Company Incorporation or LLP Registration",
-    price: 1,
+    price: 999,
     inclusions: [
       {
         title: "Name Application Fee",
@@ -227,7 +226,7 @@ const CARD_CONTENTS: Array<{
     recommended: true,
     description:
       "Get your company up and running quickly with must-have compliances included.",
-    price: 1,
+    price: 2999,
     inclusions: [
       {
         title: "MCA Name Approval",
