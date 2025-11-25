@@ -137,7 +137,6 @@ async function purchase({
           payment_id: response.razorpay_payment_id,
           payment_status: "completed",
           payment_date: paymentDate,
-          last_updated: paymentDate,
         });
 
         await sendPaymentConfirmationEmail({
